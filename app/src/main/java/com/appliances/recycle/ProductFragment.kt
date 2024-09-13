@@ -282,49 +282,24 @@ class ProductFragment : Fragment() {
     }
 
     // 아이템 목록을 테이블에 추가하는 함수
-//    private fun addMatchingItemsToRecyclerView() {
-//        val predictedLabel = predictionResult?.predictedClassLabel
-//        val matchingItems = itemDTOList.filter { it.iname == predictedLabel }
-//
-//        // 어댑터의 현재 아이템 리스트를 가져옴
-//        val currentItems = itemAdapter.items.toMutableList() // 현재 리스트를 mutable 리스트로 변환
-//        Log.d("lsy", "아이템리스트+${currentItems}")
-//
-//        // 기존 필터링을 제거하여 중복된 항목도 추가되도록 처리
-//        val newItems: MutableList<ItemDTO> = matchingItems.toMutableList()
-//        Log.d("lsy", "필터링+${newItems}")
-//
-//        if (newItems.isNotEmpty()) {
-//            // 기존 리스트에 새 아이템을 추가 (중복을 고려하지 않음)
-//            currentItems.addAll(newItems)
-//            Log.d("lsy", "필터링+${currentItems}")
-//
-//            // 어댑터에 업데이트된 리스트 전달
-//            itemAdapter.submitList(currentItems.toMutableList()) // submitList로 업데이트된 리스트 전달
-//            Log.d("lsy", "필터링+${itemAdapter}")
-//        }
-//    }
     private fun addMatchingItemsToRecyclerView() {
         val predictedLabel = predictionResult?.predictedClassLabel
         val matchingItems = itemDTOList.filter { it.iname == predictedLabel }
 
-        // 어댑터의 현재 아이템 리스트를 가져옴
-        val currentItems = itemAdapter.items.toMutableList() // 현재 리스트를 mutable 리스트로 변환
-        Log.d("lsy", "아이템리스트+${currentItems}")
+        // 어댑터의 현재 아이템 리스트를 클리어하여 중복을 방지
+        val currentItems = mutableListOf<ItemDTO>() // 빈 리스트로 초기화
+        Log.d("lsy", "아이템리스트 초기화: $currentItems")
 
-        // 중복 제거 없이 각 아이템을 하나씩 추가
-        matchingItems.forEach { newItem ->
-            // 중복 여부를 고려하지 않고 하나씩 추가
-            currentItems.add(newItem)
-            Log.d("lsy", "새로 추가된 아이템: $newItem")
+        // 새로운 아이템을 추가
+        if (matchingItems.isNotEmpty()) {
+            currentItems.addAll(matchingItems)
+            Log.d("lsy", "추가된 아이템: $currentItems")
 
-            // 매번 하나씩 추가할 때마다 리스트를 어댑터에 반영
-            itemAdapter.submitList(currentItems.toMutableList())
-            Log.d("lsy", "업데이트된 리스트: ${currentItems}")
+            // 어댑터에 업데이트된 리스트 전달
+            itemAdapter.submitList(currentItems.toMutableList()) // submitList로 업데이트된 리스트 전달
+            Log.d("lsy", "최종 리스트: ${itemAdapter}")
         }
     }
-
-
 
     // 테이블에서 아이템을 삭제하는 함수
     private fun deleteItem(item: ItemDTO) {
