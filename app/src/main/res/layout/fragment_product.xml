@@ -49,6 +49,7 @@
         android:text="주문하기"
         android:textColor="@android:color/white"
         android:backgroundTint="@color/btn"
+        android:background="@drawable/rounded_button_with_border"
         android:padding="16dp"
         android:layout_margin="16dp"/>
 

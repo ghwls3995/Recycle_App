@@ -36,7 +36,7 @@
         android:layout_marginEnd="25dp"
         android:hint="아이디 입력"
         android:inputType="textEmailAddress"
-        android:background="@drawable/rounded_edit_text_with_border"
+        android:background="@drawable/edittext_background"
         android:padding="12dp"/>
 
     <EditText
@@ -49,7 +49,7 @@
         android:layout_marginEnd="25dp"
         android:hint="비밀번호 입력"
         android:inputType="textPassword"
-        android:background="@drawable/rounded_edit_text_with_border"
+        android:background="@drawable/edittext_background"
         android:padding="12dp"/>
 
     <LinearLayout
@@ -68,7 +68,8 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-            android:backgroundTint="@color/logocolor"
+            android:backgroundTint="@color/btn"
+            android:background="@drawable/rounded_button_with_border"
             android:text="로그인"
             android:textColor="@android:color/white" />
 
@@ -77,7 +78,8 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/logocolor"
+            android:backgroundTint="@color/btn"
+            android:background="@drawable/rounded_button_with_border"
             android:text="회원가입"
             android:textColor="@android:color/white" />
     </LinearLayout>

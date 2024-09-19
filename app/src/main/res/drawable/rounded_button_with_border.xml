@@ -1,18 +1,6 @@
-<!-- res/drawable/rounded_button_with_white_background.xml -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 흰색 배경 -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
-            <corners android:radius="16dp" />
-        </shape>
-    </item>
-    <!-- 테두리 -->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
-            <stroke android:width="2dp" android:color="@color/white"/>
-            <corners android:radius="16dp" />
-        </shape>
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 타원 모양을 만들기 위해 큰 radius 설정 -->
+    <corners android:radius="50dp"/>
+
+</shape>

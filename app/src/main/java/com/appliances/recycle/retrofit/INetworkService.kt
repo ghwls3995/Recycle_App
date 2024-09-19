@@ -6,6 +6,7 @@ import com.appliances.recycle.dto.LoginRequest
 import com.appliances.recycle.dto.LoginResponse
 import com.appliances.recycle.dto.PredictionResult
 import com.appliances.recycle.dto.Notice
+import com.appliances.recycle.dto.UserDTO
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -22,6 +23,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface INetworkService {
+
+//    @GET("/api/users/{id}")
+//    fun getUserById(@Path("id") id: String): Call<UserDTO>
 
     @Multipart
     @POST("/uploadImage")

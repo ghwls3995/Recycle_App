@@ -3,6 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp">
+
     <ImageView
         android:id="@+id/productImage"
         android:layout_width="80dp"
@@ -30,6 +31,7 @@
         android:id="@+id/delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="삭제" />
+        android:text="삭제"
+        android:backgroundTint="#E7E7E7" />
     </LinearLayout>
 </LinearLayout>

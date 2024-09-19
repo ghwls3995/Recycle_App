@@ -82,6 +82,7 @@
         android:textAllCaps="false"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/btn" />
+        android:backgroundTint="@color/btn"
+        android:background="@drawable/rounded_button_with_border" />
 
 </LinearLayout>
