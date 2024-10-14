@@ -1,6 +1,8 @@
 package com.appliances.recycle
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -9,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Toast
 import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
+import androidx.activity.viewModels
 import com.appliances.recycle.repository.LoginRepository
 import com.appliances.recycle.viewModel.LoginViewModel
 import com.appliances.recycle.viewModelFactory.LoginViewModelFactory
@@ -18,8 +20,8 @@ import com.appliances.recycle.retrofit.MyApplication
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
     private lateinit var networkService: INetworkService
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,18 +29,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val myApplication = applicationContext as MyApplication
-        networkService = myApplication.networkService  // 인증이 필요 없는 API 사용
+        myApplication.initialize(this)
+        networkService = myApplication.getApiService()
 
-        val repository = LoginRepository(networkService)
-        val factory = LoginViewModelFactory(repository)
-        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
+        sharedPreferences = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
 
         val loginButton = findViewById<Button>(R.id.btnLogin)
         val emailEditText = findViewById<EditText>(R.id.editTextEmail)
         val passwordEditText = findViewById<EditText>(R.id.editTextPassword)
 
         // 로그인 버튼 클릭 이벤트 처리
-        findViewById<Button>(R.id.btnLogin).setOnClickListener {
+        loginButton.setOnClickListener {
             // 로그인 처리 로직 구현
             val username = emailEditText.text.toString()
             val password = passwordEditText.text.toString()
@@ -48,10 +49,12 @@ class MainActivity : AppCompatActivity() {
 
         loginViewModel.loginResult.observe(this) { success ->
             if (success) {
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainPageActivity::class.java)
-                startActivity(intent)
+                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                // 로그인 성공 시 다음 화면으로 이동
+                startActivity(Intent(this, MainPageActivity::class.java))
+                finish()
             } else {
+                // 로그인 실패 시 메시지 표시
                 Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
             }
         }
@@ -81,4 +84,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private val loginViewModel: LoginViewModel by viewModels {
+        val loginRepository = LoginRepository(networkService, sharedPreferences)
+        LoginViewModelFactory(loginRepository)
+    }
+
 }

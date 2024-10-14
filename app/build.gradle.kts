@@ -4,6 +4,7 @@ plugins {
 
     //room (DB, JSON 의존성)
     id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+    id("kotlin-kapt")
 }
 
 android {
@@ -52,9 +53,10 @@ dependencies {
 //    implementation(libs.androidx.activity)
 //    val roomVersion = "2.5.1"
 
-    //추가 pytorch test 도구
+    //okhttp3
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.0")
+
     //room
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
     implementation("androidx.core:core-ktx:1.12.0")
@@ -63,8 +65,6 @@ dependencies {
 
     // bottom 네비게이션 바
     implementation ("com.google.android.material:material:1.9.0")
-    // OkHttp Logging Interceptor (for logging network requests)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     // 뷰페이져2 추가
     implementation ("androidx.viewpager2:viewpager2:1.0.0")
     // 코루틴 추가
@@ -74,16 +74,13 @@ dependencies {
     // retrofit 추가, gson 컨버터 추가.
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
 
-
     // json 변환하기 위한 라이브러리, gson 예시.
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
-
     // AndroidX Navigation 라이브러리 추가
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
-
 
     // room
     implementation("androidx.room:room-runtime:${rootProject.extra["room_version"]}")
@@ -110,6 +107,17 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // 추가 glide 관련 툴 .
+    kapt ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.github.bumptech.glide:okhttp3-integration:4.12.0")
+
+    // webkit, 다음 주소 웹 뷰 사용하기.
+    implementation("androidx.webkit:webkit:1.8.0")
+
+    //결제, 포트원, 샘플
+    implementation ("com.github.iamport:iamport-android:1.4.5")
+    implementation ("com.github.iamport:iamport-android:fix~custom_data-SNAPSHOT")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

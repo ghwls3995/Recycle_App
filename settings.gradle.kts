@@ -16,6 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        //포트원 결제
+        maven { setUrl("https://jitpack.io") }
     }
 }
 

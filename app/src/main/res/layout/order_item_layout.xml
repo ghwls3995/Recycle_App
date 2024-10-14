@@ -5,7 +5,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/productImage2"
+        android:id="@+id/orderImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"/>
@@ -19,14 +19,14 @@
         android:paddingStart="16dp">
 
         <TextView
-            android:id="@+id/productName2"
+            android:id="@+id/orderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
             android:text="Product Name"/>
 
         <TextView
-            android:id="@+id/productPrice2"
+            android:id="@+id/orderPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Product Price"/>

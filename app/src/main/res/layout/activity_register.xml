@@ -23,6 +23,8 @@
         android:id="@+id/editTextEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="이메일"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="16dp"/>
@@ -32,6 +34,8 @@
         android:id="@+id/editTextMname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="이름"
         android:inputType="text"
         android:layout_marginBottom="24dp"/>
@@ -41,6 +45,8 @@
         android:id="@+id/editTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="비밀번호"
         android:inputType="textPassword"
         android:layout_marginBottom="16dp"/>
@@ -50,6 +56,8 @@
         android:id="@+id/editTextConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="비밀번호 확인"
         android:inputType="textPassword"
         android:layout_marginBottom="24dp"/>
@@ -59,6 +67,8 @@
         android:id="@+id/editTextAdress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="주소"
         android:inputType="text"
         android:layout_marginBottom="24dp"/>
@@ -68,6 +78,8 @@
         android:id="@+id/editTextPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_background"
+        android:padding="16dp"
         android:hint="전화번호"
         android:inputType="text"
         android:layout_marginBottom="24dp"/>

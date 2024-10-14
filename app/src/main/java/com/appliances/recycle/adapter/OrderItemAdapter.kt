@@ -1,78 +1,79 @@
 package com.appliances.recycle.adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.appliances.recycle.R
 import com.appliances.recycle.dto.ItemDTO
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
-class OrderItemAdapter(private val fullItemList: List<ItemDTO>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class OrderItemAdapter(val items: MutableList<ItemDTO>, private val context: Context // SharedPreferences를 사용하기 위한 Context
+) :
+    RecyclerView.Adapter<OrderItemAdapter.ItemViewHolder>() {
+    private val sharedPrefs: SharedPreferences =
+        context.getSharedPreferences("my_app_prefs", Context.MODE_PRIVATE)
 
-    private var isExpanded = false  // 펼쳐졌는지 여부
-    private val COLLAPSED_ITEM_COUNT = 2  // 기본적으로 보여줄 항목 수
-    private val TYPE_ITEM = 0  // 일반 아이템 타입
-    private val TYPE_FOOTER = 1  // "더 보기/접기" 버튼 타입
-
-    // 보일 아이템 리스트 갱신
-    private fun getVisibleItemCount(): Int {
-        return if (isExpanded) fullItemList.size else COLLAPSED_ITEM_COUNT
+    class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val imageView: ImageView = view.findViewById(R.id.orderImage)
+        val itemName: TextView = view.findViewById(R.id.orderName)
+        val itemPrice: TextView = view.findViewById(R.id.orderPrice)
     }
 
-    // 일반 아이템과 "더 보기/접기" 버튼을 구분하기 위해 뷰 타입을 설정
-    override fun getItemViewType(position: Int): Int {
-        return if (position < getVisibleItemCount()) TYPE_ITEM else TYPE_FOOTER
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.order_item_layout, parent, false)
+        return ItemViewHolder(view)
     }
 
-    // ViewHolder 생성
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_ITEM) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.order_item_layout, parent, false)
-            ItemViewHolder(view)
-        } else {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_footer_layout, parent, false)
-            FooterViewHolder(view)
-        }
-    }
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        val item = items[position]
+        holder.itemName.text = item.iname
+        holder.itemPrice.text = item.iprice?.toString()+"원" ?: "가격 없음"
 
-    // ViewHolder 데이터 바인딩
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ItemViewHolder) {
-            val item = fullItemList[position]
-            holder.bind(item)
-        } else if (holder is FooterViewHolder) {
-            holder.bind(isExpanded)
-            holder.itemView.setOnClickListener {
-                isExpanded = !isExpanded  // 펼쳐짐 상태 변경
-                notifyDataSetChanged()  // 데이터 변경 적용
-            }
-        }
+        // 이미지 로드 (Glide 사용)
+        Glide.with(holder.imageView.context)
+            .load(item.imageUrl) // item.imageUrl: 아이템 이미지의 URL
+            .into(holder.imageView)
     }
 
     override fun getItemCount(): Int {
-        // 기본적으로 보여줄 항목 수 + "더 보기/접기" 버튼
-        return if (fullItemList.size > COLLAPSED_ITEM_COUNT) getVisibleItemCount() + 1 else fullItemList.size
+        return items.size
     }
 
-    // 일반 아이템 ViewHolder
-    class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.productName)
-        val productPrice: TextView = itemView.findViewById(R.id.productPrice)
+    fun submitList(newItems: MutableList<ItemDTO>) {
+        newItems.forEach { newItem ->
+            items.add(newItem) }
+        // 리스트가 변경된 후 SharedPreferences에 저장
+        saveItemsToSharedPrefs(items)
+        notifyDataSetChanged()
+    }
 
-        fun bind(item: ItemDTO) {
-            // 아이템 데이터 설정
-            itemView.findViewById<TextView>(R.id.productName2).text = item.iname
-            itemView.findViewById<TextView>(R.id.productPrice2).text = item.iprice.toString()
+    // SharedPreferences에 리스트 저장
+    private fun saveItemsToSharedPrefs(items: List<ItemDTO>) {
+        val gson = Gson()
+        val jsonString = gson.toJson(items) // 리스트를 JSON 문자열로 변환
+        with(sharedPrefs.edit()) {
+            putString("items_key", jsonString)
+            apply() // SharedPreferences에 저장
         }
     }
 
-    // "더 보기/접기" 버튼 ViewHolder
-    class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(isExpanded: Boolean) {
-            val text = if (isExpanded) "접기" else "더 보기"
-            itemView.findViewById<Button>(R.id.btn_footer).text = text
+    // SharedPreferences에서 리스트를 불러오는 함수
+    fun loadItemsFromSharedPrefs(): List<ItemDTO> {
+        val jsonString = sharedPrefs.getString("items_key", null)
+        return if (jsonString != null) {
+            val type = object : TypeToken<List<ItemDTO>>() {}.type
+            Gson().fromJson(jsonString, type) // JSON 문자열을 리스트로 변환
+        } else {
+            mutableListOf() // SharedPreferences에 값이 없을 경우 빈 리스트 반환
         }
     }
+
 }

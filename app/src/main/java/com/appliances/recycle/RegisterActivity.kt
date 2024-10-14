@@ -1,5 +1,6 @@
 package com.appliances.recycle
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -40,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.editTextEmail.text.toString()
             val mname = binding.editTextMname.text.toString()
             val pw = binding.editTextPassword.text.toString()
-            val adress = binding.editTextAdress.text.toString()
+            val address = binding.editTextAdress.text.toString()
             val phone = binding.editTextPhone.text.toString()
 
 
@@ -49,10 +50,15 @@ class RegisterActivity : AppCompatActivity() {
                 email = email,
                 mname = mname,
                 pw = pw,
-                address = adress,   // 필요한 경우 주소와 전화번호 추가
+                address = address,   // 필요한 경우 주소와 전화번호 추가
                 phone = phone,
                 onSuccess = {
                     Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+                    // 메인 페이지로 이동
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    // 현재 창 닫기
+                    finish()
                 },
                 onFailure = {
                     Log.e("RegisterActivity", "Registration failed: 서버에서 받은 응답을 확인하세요."+registerViewModel + "  "+email+ "  "+ pw )
